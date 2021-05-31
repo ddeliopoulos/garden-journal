@@ -1,0 +1,54 @@
+Raised Bed -
+as a Gardener
+I would like to add the wlh of my garden bed
+so that i know how many plants i can plant and how much soil to purchase
+
+as a Gardener
+I would like to be able to remove my plants from my garden bed
+so that i can have an updated version of my garden
+
+i would like to be able to change the type of soil in my garden bed
+so that it is the right type for the right plant
+
+i would like to know how much water the plants are getting on a daily basis
+so that i can avoid overfeeding the plants
+
+i would like to know how many hours of sunlight the plants are getting
+so i can give the plants the correct amount of light that they need
+
+i would like to know how much my plants are yielding in fruit
+so that i can compare the yearly harvest to make any changes
+
+i would like to update update information on the type of soil
+so that i can change it in case of accident
+
+i would like to update the # of hours of sunlight
+so that i can change it in case of accident
+
+i would like to update the amount of fruit my plants yield
+so that i can change it in case of accident
+
+i would like to update the types of fruit
+so that i can change it in case of accident
+
+Plant
+Things that change
+height
+color
+amount of fruit
+leaves
+    # of leaves
+    color of leaves
+    size of leaves
+
+
+Things that dont change
+type of plant
+name of plant
+
+plant:
+ name = "Johny"
+ species = "Cacti"
+ leaves:
+  1. color - yellow, quite big
+  2. color - green, small

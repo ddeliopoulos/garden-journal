@@ -1,0 +1,11 @@
+1. your API consists of resources (plant is a resource)
+2. you can operate on resources (get, create, delete etc.)
+3. we use HTTP method to define the operation (POST => CREATE)
+4. we use HTTP status codes to define the status (e.g. 201 means "I created something")
+5. we use URL to specify the resource
+   a. resource names are plural (instead of /plant, we have /plants)
+   b. resources can contain other resources (e.g. plant can contain leaves, to access leaves /plants/{plantId}/leaves)
+6. APIs are stateless
+   a. state is not handled by API, we put it in the DB
+   b. exception! caching is allowed if we don't need the freshest data (if something doesn't change very often, e.g. currency rates)
+7. headers control meta-data (e.g. `Accept: application/json` means "give me back a JSON")
