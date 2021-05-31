@@ -1,0 +1,8 @@
+show all changes about to be committed
+  git status
+
+add all files to be committed:
+  git add .
+
+commit the changes
+  git commit -a
