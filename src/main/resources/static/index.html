@@ -1,6 +1,18 @@
 <html lang="en">
 <!-- Style is defined by CSS -->
 <style>
+*{
+    margin: 0;
+    padding: 0;
+}
+    .container{
+        height: 100vh;
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+        box-sizing: border-box;
+        position: relative;
+    }
     #createAPlantSection {
         height: 100%;
         width: 50%;
@@ -18,29 +30,43 @@
     }
 </style>
 <!-- Page content is defined as HTML body -->
+<head>
+    <title> Garden Journal</title>
+</head>
 <body>
+<div class = "container">
 <div id="createAPlantSection">
-    <button id="createAPlantSectionLabel" onclick="onPlantCreate()">Create a plant</button>
+    <button id="createAPlantSectionLabel" onclick="onPlantCreate()">Create a Plant</button>
+    <div id="show-error"></div>
     <form>
         <label>
-            name
-            <input id="plantNameTextField" type="text" placeholder="Tomato">
+            Name
+            <input id="plantNameTextField" type="text" placeholder="plant">
         </label>
         <br/>
         <label>
-            color
+            Color
             <input id="plantColorTextField" type="text" placeholder="#ffab02">
         </label>
         <br/>
         <label>
-            height in inches
+            Height in inches
             <input id="plantHeightTextField" type="text" placeholder="25">
         </label>
     </form>
 </div>
 <div id="listOfPlantsSection">
-    <div id="listOfPlantsSectionLabel">List of plants</div>
+    <div id="listOfPlantsSectionLabel">Plants
+        <br/>
+        <label>
+            Remove Plant
+            <input id="plantIdTextField" type="text" placeholder="Id">
+        </label>
+        <button id="removeAPlantSectionLabel" onclick="removeAPlant()">Remove</button>
+        <br/>
+    </div>
     <div id="listOfPlants"></div>
+</div>
 </div>
 </body>
 <!-- Javascript defines what happens on the page -->
@@ -48,7 +74,10 @@
     const plantNameTextField = document.getElementById('plantNameTextField');
     const plantColorTextField = document.getElementById('plantColorTextField');
     const plantHeightTextField = document.getElementById('plantHeightTextField');
+    const plantIdTextField = document.getElementById('plantIdTextField')
     const listOfPlants = document.getElementById('listOfPlants'); // a DIV element containing a list of DIV elements with plant information
+    const errorDiv = document.querySelector('#show-error');
+
 
     function createListOfPlants() {
         // 1. fetch the list of all plants
@@ -93,10 +122,44 @@
 
     }
 
+    function removeAPlant() {
+        const removeAPlantRequest = new XMLHttpRequest();
+
+        removeAPlantRequest.onreadystatechange = function () {
+            if (this.readyState !== 4) return;
+
+            // if status is error, throw
+            if (this.status !== 200) {
+                throw new Error(`status is ${this.status}`);
+            }
+
+            console.log('removed a plant');
+
+
+            plantIdTextField.value = '';
+
+            createListOfPlants()
+
+        }
+
+        const url = 'http://localhost:8080/api/v1/plants';
+        removeAPlantRequest.open('DELETE', url + '/' + plantIdTextField.value, true);
+        // actually send the request
+        removeAPlantRequest.send();
+
+
+    }
+
     createListOfPlants();
 
     function onPlantCreate() {
         // create plant object
+        if (plantNameTextField.value === "") {
+            errorDiv.innerText = "Please, name your plant dumbass.";
+            errorDiv.style.color = 'red';
+            return;
+        }
+
         const plant = {
             "name": plantNameTextField.value,
             "colorRed": 255,
@@ -116,6 +179,7 @@
                 throw new Error(`status is ${this.status}`);
             }
 
+
             // if we succeeded, print the new plant's ID
             const plantId = this.responseText;
             console.log('created a plant', plantId, plant);
@@ -134,6 +198,7 @@
         createAPlantRequest.setRequestHeader('Content-Type', 'application/json');
         // actually send the request
         createAPlantRequest.send(JSON.stringify(plant));
+
     }
 </script>
 </html>
