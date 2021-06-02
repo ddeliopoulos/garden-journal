@@ -55,7 +55,7 @@
         color: #fff;
         font-weight: 600;
         border-radius: 5px;
-        width: 15%;
+        width: 45%;
         margin: 40px;
     }
 
@@ -127,7 +127,9 @@
                 <input id="plantHeightTextField" type="text">
             </label>
             <br/>
-            <button type="submit" id= "createAPlantSectionLabel" onclick="onPlantCreate(); return false;">Create a Plant</button>
+            <button type="submit" id="createAPlantSectionLabel" onclick="onPlantCreate(); return false;">Create a
+                Plant
+            </button>
             <div id="show-error"></div>
         </form>
     </div>
@@ -205,6 +207,7 @@
         getAPlantRequest.send();
 
     }
+    createListOfPlants()
 
     function removeAPlant() {
         const removeAPlantRequest = new XMLHttpRequest();
@@ -238,9 +241,9 @@
         if (plantNameTextField.value === "") {
             errorDiv.innerText = "Please, name your plant dumbass.";
             errorDiv.style.color = 'red';
-            errorDiv.innerHTML = '';
             return;
-        }
+        } else
+            errorDiv.innerText = "";
 
         const plant = {
             "name": plantNameTextField.value,
@@ -280,38 +283,6 @@
         // actually send the request
         createAPlantRequest.send(JSON.stringify(plant));
     }
-
-    // function appendPlantData() {
-    //     const getAPlantRequest = new XMLHttpRequest();
-    //     getAPlantRequest.onreadystatechange = function () {
-    //         // when response didn't come yet, move on
-    //         if (this.readyState !== 4) return;
-    //
-    //         // if status is error, throw
-    //         if (this.status !== 200) {
-    //             throw new Error(`status is ${this.status}`);
-    //         }
-    //
-    //         // if we succeeded, print the new plant's ID
-    //         const listOfPlantsFromResponse = JSON.parse(this.responseText);
-    //         console.log('received a plant', listOfPlantsFromResponse);
-    //         listOfPlants.innerHTML = '';
-    //
-    //         for (let i = 0; i < listOfPlantsFromResponse.length; ++i) {
-    //             const newDiv = document.createElement("div");
-    //             listOfPlants.appendChild(newDiv);
-    //             newDiv.textContent = JSON.stringify(listOfPlantsFromResponse[i]);
-    //         }
-    //     };
-    //
-    //     getAPlantRequest.open('GET', 'http://localhost:8080/api/v1/plants', true);
-    //     // actually send the request
-    //     getAPlantRequest.send();
-    // }
-    function refresh() {
-        window.parent.location = window.parent.location.href;
-    }
-
 
 </script>
 </html>

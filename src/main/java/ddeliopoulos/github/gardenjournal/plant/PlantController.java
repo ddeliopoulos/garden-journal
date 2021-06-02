@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,10 +33,14 @@ class PlantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CrossOrigin(origins = "*")
-    public Long createNewPlant(@RequestBody CreatePlantRequest request) {
+    public Long createNewPlant(@Valid @RequestBody CreatePlantRequest request) {
         // return ID from controller, user will receive as response
         return plantService.createNewPlant(request);
+    }
+
+    @DeleteMapping("/{plantId}")
+    public void deletePlant(@PathVariable Long plantId){
+        plantService.removePlant(plantId);
     }
 
 }

@@ -3,10 +3,13 @@ package ddeliopoulos.github.gardenjournal.plant;
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequest;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * no visibility specified so it's package-private (only visible in package)
@@ -32,7 +35,6 @@ class PlantService {
         return allPlantsMapped;
     }
 
-
     Long createNewPlant(final CreatePlantRequest request) {
         // create Plant entity
         final Plant entity = new Plant(
@@ -54,12 +56,14 @@ class PlantService {
     }
 
     GetPlantResponse getPlant(Long plantId) {
-        final Plant nullablePlant = plantRepository.getById(plantId);
-        if (nullablePlant != null) {
-            return mapEntityToGetResponse(nullablePlant);
-        } else {
-            return null;
-        }
+        final Optional<Plant> nullablePlant = plantRepository.findById(plantId);
+        if (nullablePlant.isPresent()) {
+            return mapEntityToGetResponse(nullablePlant.get());
+        } else
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "entity not found"
+            );
+
 
 //        final Optional<Plant> optionalPlant = plantRepository.findById(plantId);
 
@@ -73,5 +77,11 @@ class PlantService {
                 nullablePlant.getHeightInInches()
         );
     }
-
+    void removePlant(Long Id){
+        if(plantRepository.existsById(Id)) {
+            plantRepository.deleteById(Id);
+        } else throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "entity not found"
+        );
+    }
 }
