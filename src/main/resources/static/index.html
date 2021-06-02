@@ -1,80 +1,164 @@
 <html lang="en">
 <!-- Style is defined by CSS -->
 <style>
-*{
-    margin: 0;
-    padding: 0;
-}
-    .container{
-        height: 100vh;
-        width: 100%;
-        padding-left: 5%;
-        padding-right: 5%;
-        box-sizing: border-box;
-        position: relative;
+    * {
+        margin: 0;
+        padding: 0;
     }
-    #createAPlantSection {
-        height: 100%;
+
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
+    input[type=text] {
+        padding: 10px;
+        margin: 10px 0;
+        box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+        border: 2px solid #eee;
         width: 50%;
-        position: absolute;
+    }
+
+
+    label {
         left: 0;
         top: 0;
+        width: 350px;
+        text-align: right;
+        padding: 10px;
+    }
+
+    input {
+        height: 20px;
+        flex: 0 0 200px;
+        margin-left: 10px;
+    }
+
+    #createAPlantSection {
+        flex: 50%;
+    }
+
+    .row {
+        display: flex;
+    }
+
+    input[type=text]:focus {
+        background-color: #faf8d4;
+        border-color: #000;
+    }
+
+    #createAPlantSectionLabel {
+        appearance: none;
+        -webkit-appearance: none;
+        padding: 10px;
+        border: none;
+        background-color: #3F51B5;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 5px;
+        width: 15%;
+        margin: 40px;
+    }
+
+    @font-face {
+        font-family: "Roboto Slab", serif;;
+        src: url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap')
+    }
+
+    .header {
+        font-family: 'Roboto Slab', Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 1.25em;
+        color: #000000;
+        line-height: 1.15em;
+        padding: 25px;
     }
 
     #listOfPlantsSection {
+        border: 2px solid black;
         height: 100%;
         width: 50%;
         position: absolute;
         left: 50%;
         top: 0;
     }
+
+    #createAPlantSection {
+        border: 2px solid black;
+        height: 100%;
+        width: 50%;
+        position: absolute;
+        right: 50%;
+        top: 0;
+    }
 </style>
+
 <!-- Page content is defined as HTML body -->
+
 <head>
     <title> Garden Journal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap');
+    </style>
 </head>
+
+
 <body>
-<div class = "container">
-<div id="createAPlantSection">
-    <button id="createAPlantSectionLabel" onclick="onPlantCreate()">Create a Plant</button>
-    <div id="show-error"></div>
-    <form>
-        <label>
-            Name
-            <input id="plantNameTextField" type="text" placeholder="plant">
-        </label>
-        <br/>
-        <label>
-            Color
-            <input id="plantColorTextField" type="text" placeholder="#ffab02">
-        </label>
-        <br/>
-        <label>
-            Height in inches
-            <input id="plantHeightTextField" type="text" placeholder="25">
-        </label>
-    </form>
-</div>
-<div id="listOfPlantsSection">
-    <div id="listOfPlantsSectionLabel">Plants
-        <br/>
-        <label>
-            Remove Plant
-            <input id="plantIdTextField" type="text" placeholder="Id">
-        </label>
-        <button id="removeAPlantSectionLabel" onclick="removeAPlant()">Remove</button>
-        <br/>
+<div class="row">
+    <div id="createAPlantSection">
+        <form>
+            <header class="header">
+                <h1>Add Plant</h1>
+            </header>
+            <label>
+                Name
+                <br/>
+                <input id="plantNameTextField" type="text">
+            </label>
+            <br/>
+            <label>
+                Color
+                <br/>
+                <input id="plantColorTextField" type="text">
+            </label>
+            <br/>
+            <label>
+                Height in inches
+                <br/>
+                <input id="plantHeightTextField" type="text">
+            </label>
+            <br/>
+            <button type="submit" id= "createAPlantSectionLabel" onclick="onPlantCreate(); return false;">Create a Plant</button>
+            <div id="show-error"></div>
+        </form>
     </div>
-    <div id="listOfPlants"></div>
-</div>
+
+
+    <div id="listOfPlantsSection">
+        <div id="listOfPlantsSectionLabel">
+            <header class="header">
+                <h1>Plants</h1>
+            </header>
+            <br/>
+
+            <label>
+                Remove Plant
+                <input id="plantIdTextField" type="text">
+            </label>
+            <button id="removeAPlantSectionLabel" onclick="removeAPlant()">Remove</button>
+            <br/>
+        </div>
+        <div id="listOfPlants"></div>
+    </div>
 </div>
 </body>
+
 <!-- Javascript defines what happens on the page -->
+
 <script lang="javascript">
     const plantNameTextField = document.getElementById('plantNameTextField');
     const plantColorTextField = document.getElementById('plantColorTextField');
     const plantHeightTextField = document.getElementById('plantHeightTextField');
-    const plantIdTextField = document.getElementById('plantIdTextField')
+    const plantIdTextField = document.getElementById('plantIdTextField');
     const listOfPlants = document.getElementById('listOfPlants'); // a DIV element containing a list of DIV elements with plant information
     const errorDiv = document.querySelector('#show-error');
 
@@ -138,7 +222,7 @@
 
             plantIdTextField.value = '';
 
-            createListOfPlants()
+            createListOfPlants();
 
         }
 
@@ -147,16 +231,14 @@
         // actually send the request
         removeAPlantRequest.send();
 
-
     }
-
-    createListOfPlants();
 
     function onPlantCreate() {
         // create plant object
         if (plantNameTextField.value === "") {
             errorDiv.innerText = "Please, name your plant dumbass.";
             errorDiv.style.color = 'red';
+            errorDiv.innerHTML = '';
             return;
         }
 
@@ -190,7 +272,6 @@
             plantHeightTextField.value = '';
 
             createListOfPlants();
-
         };
 
         createAPlantRequest.open('POST', 'http://localhost:8080/api/v1/plants', true);
@@ -198,7 +279,39 @@
         createAPlantRequest.setRequestHeader('Content-Type', 'application/json');
         // actually send the request
         createAPlantRequest.send(JSON.stringify(plant));
-
     }
+
+    // function appendPlantData() {
+    //     const getAPlantRequest = new XMLHttpRequest();
+    //     getAPlantRequest.onreadystatechange = function () {
+    //         // when response didn't come yet, move on
+    //         if (this.readyState !== 4) return;
+    //
+    //         // if status is error, throw
+    //         if (this.status !== 200) {
+    //             throw new Error(`status is ${this.status}`);
+    //         }
+    //
+    //         // if we succeeded, print the new plant's ID
+    //         const listOfPlantsFromResponse = JSON.parse(this.responseText);
+    //         console.log('received a plant', listOfPlantsFromResponse);
+    //         listOfPlants.innerHTML = '';
+    //
+    //         for (let i = 0; i < listOfPlantsFromResponse.length; ++i) {
+    //             const newDiv = document.createElement("div");
+    //             listOfPlants.appendChild(newDiv);
+    //             newDiv.textContent = JSON.stringify(listOfPlantsFromResponse[i]);
+    //         }
+    //     };
+    //
+    //     getAPlantRequest.open('GET', 'http://localhost:8080/api/v1/plants', true);
+    //     // actually send the request
+    //     getAPlantRequest.send();
+    // }
+    function refresh() {
+        window.parent.location = window.parent.location.href;
+    }
+
+
 </script>
 </html>
