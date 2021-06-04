@@ -1,5 +1,6 @@
 <html lang="en">
 <!-- Style is defined by CSS -->
+
 <style>
     * {
         margin: 0;
@@ -95,6 +96,7 @@
 <!-- Page content is defined as HTML body -->
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title> Garden Journal</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap');
@@ -149,7 +151,16 @@
             <button id="removeAPlantSectionLabel" onclick="removeAPlant()">Remove</button>
             <br/>
         </div>
+        <div id="plantBox"></div>
         <div id="listOfPlants"></div>
+        <table class="table table-plant">
+            <th>Name</th>
+            <th>Height</th>
+            <tbody id="plantTable">
+
+
+            </tbody>
+        </table>
     </div>
 </div>
 </body>
@@ -164,6 +175,19 @@
     const listOfPlants = document.getElementById('listOfPlants'); // a DIV element containing a list of DIV elements with plant information
     const errorDiv = document.querySelector('#show-error');
 
+    //buildTable(listOfPlants)
+
+    // function buildTable(data){
+    //
+    //     const table = document.getElementById('plantTable')
+    //     for(let i = 0; i < data.length; ++i){
+    //         const row = `<tr>
+    //                         <td>${data[i].name}</td>
+    //                         <td>${data[i].heightInInches}</td>
+    //                      </tr>`
+    //         table.innerHTML += row;
+    //         }
+    //         }
 
     function createListOfPlants() {
         // 1. fetch the list of all plants
@@ -197,7 +221,7 @@
             for (let i = 0; i < listOfPlantsFromResponse.length; ++i) {
                 const newDiv = document.createElement('div');
                 listOfPlants.appendChild(newDiv);
-                newDiv.textContent = JSON.stringify(listOfPlantsFromResponse[i]);
+                newDiv.textContent = JSON.stringify(listOfPlantsFromResponse[i].skinColor);
             }
 
         };
@@ -283,6 +307,7 @@
         // actually send the request
         createAPlantRequest.send(JSON.stringify(plant));
     }
+
 
 </script>
 </html>
