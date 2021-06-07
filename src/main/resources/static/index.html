@@ -129,7 +129,7 @@
                 <input id="plantHeightTextField" type="text">
             </label>
             <br/>
-            <button type="submit" id="createAPlantSectionLabel" onclick="onPlantCreate(); return false;">Create a
+            <button type="submit" id="createAPlantSectionLabel" onclick="onPlantCreate()">Create a
                 Plant
             </button>
             <div id="show-error"></div>
@@ -167,7 +167,9 @@
 
 <!-- Javascript defines what happens on the page -->
 
-<script lang="javascript">
+<script lang="javascript" type="module">
+    import {sendRequest} from "./request.js";
+
     const plantNameTextField = document.getElementById('plantNameTextField');
     const plantColorTextField = document.getElementById('plantColorTextField');
     const plantHeightTextField = document.getElementById('plantHeightTextField');
@@ -175,92 +177,47 @@
     const listOfPlants = document.getElementById('listOfPlants'); // a DIV element containing a list of DIV elements with plant information
     const errorDiv = document.querySelector('#show-error');
 
-    //buildTable(listOfPlants)
-
-    // function buildTable(data){
-    //
-    //     const table = document.getElementById('plantTable')
-    //     for(let i = 0; i < data.length; ++i){
-    //         const row = `<tr>
-    //                         <td>${data[i].name}</td>
-    //                         <td>${data[i].heightInInches}</td>
-    //                      </tr>`
-    //         table.innerHTML += row;
-    //         }
-    //         }
-
-    function createListOfPlants() {
-        // 1. fetch the list of all plants
-        // 2. create divs for each plant
-        // for (let i = 0; i < 10; ++i) {
-        //     const newDiv = document.createElement('div');
-        //     listOfPlants.appendChild(newDiv);
-        //     newDiv.textContent = 'hello! ' + i;
-        // }
-        const getAPlantRequest = new XMLHttpRequest();
-        getAPlantRequest.onreadystatechange = function () {
-            // when response didn't come yet, move on
-            if (this.readyState !== 4) return;
-
-            // if status is error, throw
-            if (this.status !== 200) {
+    const createListOfPlants = () => {
+        sendRequest({
+            method: 'GET',
+            url: '/plants',
+            data: null
+        }).then(response => {
+            if (response.status !== 200) {
                 throw new Error(`status is ${this.status}`);
             }
 
-            // if we succeeded, print the new plant's ID
-            const listOfPlantsFromResponse = JSON.parse(this.responseText); // actual list of plants from the server
-            console.log('received a plant', listOfPlantsFromResponse);
-
-            // removes old elements from the list of plants
-            // while(listOfPlants.children.length !==0) {
-            //     listOfPlants.removeChild(listOfPlants.children[0]);
-            // }
-            // same as above but instead we clear HTML
+            const listOfPlantsFromResponse = response.data;
             listOfPlants.innerHTML = '';
 
             for (let i = 0; i < listOfPlantsFromResponse.length; ++i) {
                 const newDiv = document.createElement('div');
                 listOfPlants.appendChild(newDiv);
-                newDiv.textContent = JSON.stringify(listOfPlantsFromResponse[i].skinColor);
+                newDiv.textContent = JSON.stringify(listOfPlantsFromResponse[i].name);
             }
-
-        };
-
-        getAPlantRequest.open('GET', 'http://localhost:8080/api/v1/plants', true);
-        // actually send the request
-        getAPlantRequest.send();
-
+        });
     }
+
     createListOfPlants()
 
-    function removeAPlant() {
-        const removeAPlantRequest = new XMLHttpRequest();
-
-        removeAPlantRequest.onreadystatechange = function () {
-            if (this.readyState !== 4) return;
-
-            // if status is error, throw
-            if (this.status !== 200) {
+    const removeAPlant = () => {
+        sendRequest({
+            method: 'DELETE',
+            url: '/plants/' + plantIdTextField.value,
+            data: null
+        }).then(response => {
+            if (response.status !== 200) {
                 throw new Error(`status is ${this.status}`);
             }
-
             console.log('removed a plant');
-
 
             plantIdTextField.value = '';
 
             createListOfPlants();
-
-        }
-
-        const url = 'http://localhost:8080/api/v1/plants';
-        removeAPlantRequest.open('DELETE', url + '/' + plantIdTextField.value, true);
-        // actually send the request
-        removeAPlantRequest.send();
-
+        })
     }
 
-    function onPlantCreate() {
+    const onPlantCreate = () => {
         // create plant object
         if (plantNameTextField.value === "") {
             errorDiv.innerText = "Please, name your plant dumbass.";
@@ -278,19 +235,18 @@
         };
 
         // send POST request to the server
-        const createAPlantRequest = new XMLHttpRequest();
-        createAPlantRequest.onreadystatechange = function () {
-            // when response didn't come yet, move on
-            if (this.readyState !== 4) return;
-
-            // if status is error, throw
-            if (this.status !== 201) {
+        sendRequest({
+            method: 'POST',
+            url: '/plants/' + plantIdTextField.value,
+            data: JSON.stringify(plant)
+        }).then(response => {
+            if (response.status !== 200) {
                 throw new Error(`status is ${this.status}`);
             }
 
-
             // if we succeeded, print the new plant's ID
-            const plantId = this.responseText;
+            const plantId = response.data;
+
             console.log('created a plant', plantId, plant);
 
             // clear the input fields
@@ -299,15 +255,10 @@
             plantHeightTextField.value = '';
 
             createListOfPlants();
-        };
-
-        createAPlantRequest.open('POST', 'http://localhost:8080/api/v1/plants', true);
-        // tell the server we are sending a JSON
-        createAPlantRequest.setRequestHeader('Content-Type', 'application/json');
-        // actually send the request
-        createAPlantRequest.send(JSON.stringify(plant));
+        });
     }
 
-
+    window.onPlantCreate = onPlantCreate;
+    window.createListOfPlants = createListOfPlants;
 </script>
 </html>
