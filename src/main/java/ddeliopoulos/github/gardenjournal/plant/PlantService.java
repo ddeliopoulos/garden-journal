@@ -40,12 +40,7 @@ class PlantService {
         final Plant entity = new Plant(
                 null,
                 request.getName(),
-                new PlantColor(
-                        request.getColorRed(),
-                        request.getColorGreen(),
-                        request.getColorBlue()
-                ),
-                request.getHeightInInches()
+                request.getType()
         );
 
         // save to database and get wrapped entity
@@ -56,25 +51,27 @@ class PlantService {
     }
 
     GetPlantResponse getPlant(Long plantId) {
-        final Optional<Plant> nullablePlant = plantRepository.findById(plantId);
-        if (nullablePlant.isPresent()) {
-            return mapEntityToGetResponse(nullablePlant.get());
-        } else
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "entity not found"
-            );
+        //        final Optional<Plant> nullablePlant = plantRepository.findById(plantId);
+//
+//        if (nullablePlant.isPresent()) {
+//            return mapEntityToGetResponse(nullablePlant.get());
+//        } else
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "entity not found"
+//            );
 
-
-//        final Optional<Plant> optionalPlant = plantRepository.findById(plantId);
-
+        return plantRepository.findById(plantId)
+                .map(this::mapEntityToGetResponse)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "entity not found"
+                ));
     }
 
     private GetPlantResponse mapEntityToGetResponse(Plant nullablePlant) {
         return new GetPlantResponse(
                 nullablePlant.getId(),
                 nullablePlant.getName(),
-                nullablePlant.getColor(),
-                nullablePlant.getHeightInInches()
+                nullablePlant.getType()
         );
     }
     void removePlant(Long Id){
