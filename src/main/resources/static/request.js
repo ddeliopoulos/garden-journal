@@ -7,7 +7,6 @@
 //  * response
 //    * status
 //    * response data
-
 const sendRequest = input => {
     const httpMethod = input.method;
     const url = input.url;
@@ -21,7 +20,7 @@ const sendRequest = input => {
 
             resolve({
                 status: this.status,
-                data: JSON.parse(this.responseText)
+                data: this.responseText === '' ? null : JSON.parse(this.responseText)
             });
         };
         httpRequest.onerror = error => reject(error);

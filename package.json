@@ -1,0 +1,9 @@
+{
+  "name": "garden-journal",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "csv-parser": "^3.0.0"
+  },
+  "type": "module"
+}

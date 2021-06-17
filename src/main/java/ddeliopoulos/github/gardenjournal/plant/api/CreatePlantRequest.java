@@ -11,9 +11,5 @@ public final class CreatePlantRequest {
 
     @NotBlank(message = "Name is mandatory")
     private final String name;
-    private final int colorRed;
-    private final int colorGreen;
-    private final int colorBlue;
-    private final Integer heightInInches;
-
+    private final String Type;
 }

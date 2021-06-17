@@ -19,8 +19,6 @@ class Plant {
     @GeneratedValue
     private Long id;
     private String name;
-    @Convert(converter = PlantColorConverter.class)
-    private PlantColor color;
-    private Integer heightInInches;
+    private String type;
 
 }
