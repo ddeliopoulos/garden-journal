@@ -20,5 +20,6 @@ class Plant {
     private Long id;
     private String name;
     private String type;
+    private String date;
 
 }

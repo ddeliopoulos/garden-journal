@@ -1,4 +1,4 @@
-package ddeliopoulos.github.gardenjournal.plant;
+package ddeliopoulos.github.gardenjournal.shared;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public final class PlantColor {
+public final class Color {
 
     private final int red;
     private final int green;

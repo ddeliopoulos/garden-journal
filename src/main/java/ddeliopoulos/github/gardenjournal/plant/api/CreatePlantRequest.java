@@ -11,5 +11,6 @@ public final class CreatePlantRequest {
 
     @NotBlank(message = "Name is mandatory")
     private final String name;
-    private final String Type;
+    private final String type;
+    private final String date;
 }

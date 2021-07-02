@@ -40,7 +40,8 @@ class PlantService {
         final Plant entity = new Plant(
                 null,
                 request.getName(),
-                request.getType()
+                request.getType(),
+                request.getDate()
         );
 
         // save to database and get wrapped entity
@@ -71,7 +72,9 @@ class PlantService {
         return new GetPlantResponse(
                 nullablePlant.getId(),
                 nullablePlant.getName(),
-                nullablePlant.getType()
+                nullablePlant.getType(),
+                nullablePlant.getDate()
+
         );
     }
     void removePlant(Long Id){

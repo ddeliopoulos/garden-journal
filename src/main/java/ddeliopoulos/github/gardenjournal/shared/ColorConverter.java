@@ -1,16 +1,16 @@
-package ddeliopoulos.github.gardenjournal.plant;
+package ddeliopoulos.github.gardenjournal.shared;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class PlantColorConverter implements
-        AttributeConverter<PlantColor, String> {
+public class ColorConverter implements
+        AttributeConverter<Color, String> {
 
     private final String SEPARATOR = ", ";
 
     @Override
-    public String convertToDatabaseColumn(PlantColor color) {
+    public String convertToDatabaseColumn(Color color) {
         return color.getRed() + SEPARATOR +
                 color.getGreen() + SEPARATOR +
                 color.getBlue();
@@ -21,9 +21,9 @@ public class PlantColorConverter implements
      * to a Color object
      */
     @Override
-    public PlantColor convertToEntityAttribute(String colorString) {
+    public Color convertToEntityAttribute(String colorString) {
         String[] rgb = colorString.split(SEPARATOR);
-        return new PlantColor(
+        return new Color(
                 Integer.parseInt(rgb[0]),
                 Integer.parseInt(rgb[1]),
                 Integer.parseInt(rgb[2])

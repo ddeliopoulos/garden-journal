@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/plants")
+@RequestMapping(path = "/plants")
 class PlantController {
 
     private final PlantService plantService;
