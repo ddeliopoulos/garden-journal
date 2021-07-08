@@ -11,4 +11,5 @@ public final class GetPlantResponse {
     private final String name;
     private final String type;
     private final String date;
+
 }

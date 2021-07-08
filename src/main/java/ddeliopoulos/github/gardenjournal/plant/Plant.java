@@ -1,8 +1,6 @@
 package ddeliopoulos.github.gardenjournal.plant;
 
 import lombok.*;
-
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
