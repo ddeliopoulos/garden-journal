@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public final class GetJournalResponse {
 
-    private final String journalEntryText;
-    private final String journalEntryImage;
-    private final String journalEntryAudio;
+    private final String Text;
+    private final String Image;
+    private final String Audio;
 
 }

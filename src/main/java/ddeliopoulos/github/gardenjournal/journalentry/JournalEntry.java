@@ -14,12 +14,12 @@ class JournalEntry {
     @Id
     @GeneratedValue
     private Long id;
-    private String journalEntryText;
+    private String Text;
     @Lob
     @Column(columnDefinition="BLOB")
-    private String journalEntryImage;
+    private String Image;
     @Lob
     @Column(columnDefinition="BLOB")
-    private String journalEntryAudio;
+    private String Audio;
 
 }

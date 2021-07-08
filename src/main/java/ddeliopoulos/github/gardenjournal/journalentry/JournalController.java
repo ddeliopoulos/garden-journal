@@ -29,7 +29,6 @@ class JournalController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long createNewJournalEntry(@Valid @RequestBody CreateJournalRequest request) {
-        // return ID from controller, user will receive as response
         return journalService.createNewJournalEntry(request);
     }
 

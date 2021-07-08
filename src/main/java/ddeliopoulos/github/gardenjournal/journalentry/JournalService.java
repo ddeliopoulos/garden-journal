@@ -2,48 +2,36 @@ package ddeliopoulos.github.gardenjournal.journalentry;
 
 import ddeliopoulos.github.gardenjournal.journalentry.api.CreateJournalRequest;
 import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 class JournalService {
 
     private final JournalRepository journalRepository;
 
-    @Autowired
-    JournalService(final JournalRepository journalRepository) {
-        this.journalRepository = journalRepository;
-    }
-
     List<GetJournalResponse> getJournalEntries() {
-        final List<JournalEntry> allJournalEntries = journalRepository.findAll();
-
-        final List<GetJournalResponse> allJournalEntriesMapped = new ArrayList<>(allJournalEntries.size());
-        for (JournalEntry journalEntry : allJournalEntries) {
-            final GetJournalResponse mappedJournalEntry = mapEntityToGetResponse(journalEntry);
-            allJournalEntriesMapped.add(mappedJournalEntry);
-        }
-        return allJournalEntriesMapped;
+        return journalRepository.findAll()
+                .stream()
+                .map(this::mapEntityToGetResponse)
+                .collect(Collectors.toList());
     }
 
     Long createNewJournalEntry(final CreateJournalRequest request) {
-        // create Journal entry entity
         final JournalEntry entity = new JournalEntry(
                 null,
-                request.getJournalEntryText(),
-                request.getJournalEntryImage(),
-                request.getJournalEntryAudio()
+                request.getText(),
+                request.getImage(),
+                request.getAudio()
         );
 
-        // save to database and get wrapped entity
         final JournalEntry savedEntity = journalRepository.save(entity);
 
-        // return ID
         return savedEntity.getId();
     }
 
@@ -57,9 +45,9 @@ class JournalService {
 
     private GetJournalResponse mapEntityToGetResponse(JournalEntry nullableJournalEntry) {
         return new GetJournalResponse(
-                nullableJournalEntry.getJournalEntryText(),
-                nullableJournalEntry.getJournalEntryImage(),
-                nullableJournalEntry.getJournalEntryAudio()
+                nullableJournalEntry.getText(),
+                nullableJournalEntry.getImage(),
+                nullableJournalEntry.getAudio()
         );
     }
 
