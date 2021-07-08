@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ddeliopoulos.github</groupId>
-    <artifactId>garden-journal</artifactId>
+    <artifactId>garden-journal-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>garden-journal</name>
+    <name>garden-journal-backend</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
