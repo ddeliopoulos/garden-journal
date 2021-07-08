@@ -2,27 +2,22 @@ package ddeliopoulos.github.gardenjournal.plant;
 
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequest;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * no visibility specified so it's package-private (only visible in package)
+ * no visibility specified, so it's package-private (only visible in package)
  */
 @Service
+@RequiredArgsConstructor
 class PlantService {
 
     private final PlantRepository plantRepository;
-
-    @Autowired
-    PlantService(final PlantRepository plantRepository) {
-        this.plantRepository = plantRepository;
-    }
 
     List<GetPlantResponse> getPlants() {
         final List<Plant> allPlants = plantRepository.findAll();

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class JournalEntry {
+class JournalEntry {
     @Id
     @GeneratedValue
     private Long id;

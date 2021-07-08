@@ -2,7 +2,7 @@ package ddeliopoulos.github.gardenjournal.journalentry;
 
 import ddeliopoulos.github.gardenjournal.journalentry.api.CreateJournalRequest;
 import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,15 +10,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/journal-entries")
-public class JournalController {
+class JournalController {
 
     private final JournalService journalService;
-
-    @Autowired
-    public JournalController(JournalService journalService) {
-        this.journalService = journalService;
-    }
 
     @GetMapping
     public List<GetJournalResponse> getJournalEntry() {
