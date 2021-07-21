@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,29 +61,21 @@ class JournalService {
         );
     }
 
-     void updateJournal(Long Id, InsertJournalRequest newJournalEntryRequest){
-         Optional<JournalEntry>  optionalEntityFromDatabase = journalRepository.findById(Id);
-         if(optionalEntityFromDatabase.isEmpty()){
-             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no entity found");
-         }
-         optionalEntityFromDatabase.ifPresent(
-                 entityFromDatabase -> {
-                     entityFromDatabase.setText(newJournalEntryRequest.getText());
-                     entityFromDatabase.setAudio(newJournalEntryRequest.getAudio());
-                     entityFromDatabase.setImage(newJournalEntryRequest.getImage());
+    // when there is no such entity in database, throw exception
+    // when entity exists then the updated entity is saved to the database
+    void updateJournal(Long Id, InsertJournalRequest newJournalEntryRequest) {
 
-                     journalRepository.save(entityFromDatabase);
-                 }
-         );
+        final JournalEntry JournalEntry = journalRepository.findById(Id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "no entity found")
+                );
+        JournalEntry.setText(newJournalEntryRequest.getText());
+        JournalEntry.setAudio(newJournalEntryRequest.getAudio());
+        JournalEntry.setImage(newJournalEntryRequest.getImage());
 
-//         journalRepository.findById(Id)
-
-//                 .map(oldJournalEntry -> {
-//                     JournalEntry updated = oldJournalEntry.updateWith(newJournalEntryRequest);
-//                     return journalRepository.save(updated);
-//                 });
-
-     }
-
+        journalRepository.save(JournalEntry);
+    }
 }
+
+
 
