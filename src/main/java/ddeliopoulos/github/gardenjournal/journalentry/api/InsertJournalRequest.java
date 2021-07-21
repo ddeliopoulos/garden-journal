@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public final class CreateJournalRequest {
+public final class InsertJournalRequest {
 
     private final String Text;
     private final String Image;

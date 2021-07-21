@@ -1,4 +1,5 @@
 package ddeliopoulos.github.gardenjournal.journalentry;
+import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequest;
 import lombok.*;
 import org.hibernate.type.descriptor.sql.LobTypeMappings;
 
@@ -21,5 +22,14 @@ class JournalEntry {
     @Lob
     @Column(columnDefinition="BLOB")
     private String Audio;
+
+    public JournalEntry updateWith(InsertJournalRequest journalEntryRequest) {
+        return new JournalEntry(
+                this.id,
+                journalEntryRequest.getText(),
+                journalEntryRequest.getImage(),
+                journalEntryRequest.getAudio()
+        );
+    }
 
 }
