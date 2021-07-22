@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -61,10 +61,9 @@ class JournalService {
         );
     }
 
-    // when there is no such entity in database, throw exception
+    // when there is no such entity in database, then throw exception
     // when entity exists then the updated entity is saved to the database
     void updateJournal(Long Id, InsertJournalRequest newJournalEntryRequest) {
-
         final JournalEntry JournalEntry = journalRepository.findById(Id)
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "no entity found")
