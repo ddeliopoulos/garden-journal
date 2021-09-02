@@ -25,6 +25,19 @@ interface GetPlantResponse {
 Array<GetPlantResponse>
 ```
 
+### Create a plant
+
+`POST` `/plants`
+
+#### Request
+
+```typescript
+interface PostPlantRequest {
+    date: string
+    name: string
+    type: string
+}
+```
 
 ## Journal Entries
 
