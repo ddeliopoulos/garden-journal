@@ -75,17 +75,19 @@ class JournalServiceTest {
 
         // given:
         final JournalEntry journalEntry = new JournalEntry(1L, "adasda", "Adasda", "asdada");
-        Mockito.when(mockJournalRepository.findById(journalEntry.getId())).thenReturn(Optional.of(journalEntry));
+        BDDMockito.given(mockJournalRepository.findById(journalEntry.getId())).willReturn(Optional.of(journalEntry));
         final InsertJournalRequest journalRequest = new InsertJournalRequest("random", "shit", "bish");
 
         // when:
         journalService.updateJournal(1L, journalRequest);
 
         // then:
-        verify(mockJournalRepository).save(journalEntry);
-        Assertions.assertEquals("random", journalEntry.getText());
-        Assertions.assertEquals("shit", journalEntry.getImage());
-        Assertions.assertEquals("bish", journalEntry.getAudio());
+        ArgumentCaptor<JournalEntry> entryCaptor = ArgumentCaptor.forClass(JournalEntry.class);
+        verify(mockJournalRepository).save(entryCaptor.capture());
+        final JournalEntry savedEntity = entryCaptor.getValue();
+        Assertions.assertEquals("random", savedEntity.getText());
+        Assertions.assertEquals("shit", savedEntity.getImage());
+        Assertions.assertEquals("bish", savedEntity.getAudio());
 
     }
 
