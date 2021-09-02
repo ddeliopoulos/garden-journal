@@ -1,6 +1,7 @@
-package ddeliopoulos.github.gardenjournal.journalentry;
+package ddeliopoulos.github.gardenjournal.media;
 
 import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,12 +10,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-class JournalEntry {
+class Media {
     @Id
     @GeneratedValue
     private Long id;
-    private Long createdAt;
-    private String type;
-    private Long mediaId;
-
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    private String data;
 }

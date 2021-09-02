@@ -2,19 +2,19 @@ package ddeliopoulos.github.gardenjournal.journalentry;
 
 import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequest;
 import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponse;
+import ddeliopoulos.github.gardenjournal.media.MediaFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 class JournalService {
 
+    private final MediaFacade mediaFacade;
     private final JournalRepository journalRepository;
 
     List<GetJournalResponse> getJournalEntries() {
@@ -25,11 +25,12 @@ class JournalService {
     }
 
     Long createNewJournalEntry(final InsertJournalRequest request) {
+        final Long mediaId = mediaFacade.createNewMedia(request.getData());
         final JournalEntry entity = new JournalEntry(
                 null,
                 request.getCreatedAt(),
                 request.getType(),
-                request.getData()
+                mediaId
         );
 
         final JournalEntry savedEntity = journalRepository.save(entity);
