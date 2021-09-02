@@ -27,9 +27,9 @@ class JournalService {
     Long createNewJournalEntry(final InsertJournalRequest request) {
         final JournalEntry entity = new JournalEntry(
                 null,
-                request.getText(),
-                request.getImage(),
-                request.getAudio()
+                request.getCreatedAt(),
+                request.getType(),
+                request.getData()
         );
 
         final JournalEntry savedEntity = journalRepository.save(entity);
@@ -47,9 +47,9 @@ class JournalService {
 
     private GetJournalResponse mapEntityToGetResponse(JournalEntry nullableJournalEntry) {
         return new GetJournalResponse(
-                nullableJournalEntry.getText(),
-                nullableJournalEntry.getImage(),
-                nullableJournalEntry.getAudio()
+                nullableJournalEntry.getCreatedAt(),
+                nullableJournalEntry.getType(),
+                nullableJournalEntry.getData()
         );
     }
 
@@ -60,21 +60,5 @@ class JournalService {
                 HttpStatus.NOT_FOUND, "entity not found"
         );
     }
-
-    // when there is no such entity in database, then throw exception
-    // when entity exists then the updated entity is saved to the database
-    void updateJournal(Long Id, InsertJournalRequest newJournalEntryRequest) {
-        final JournalEntry JournalEntry = journalRepository.findById(Id)
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "no entity found")
-                );
-        JournalEntry.setText(newJournalEntryRequest.getText());
-        JournalEntry.setAudio(newJournalEntryRequest.getAudio());
-        JournalEntry.setImage(newJournalEntryRequest.getImage());
-
-        journalRepository.save(JournalEntry);
-    }
 }
-
-
 

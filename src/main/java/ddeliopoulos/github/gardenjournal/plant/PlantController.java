@@ -3,7 +3,7 @@ package ddeliopoulos.github.gardenjournal.plant;
 
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequest;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,15 +11,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/plants")
 class PlantController {
 
     private final PlantService plantService;
-
-    @Autowired
-    public PlantController(PlantService plantService) {
-        this.plantService = plantService;
-    }
 
     @GetMapping
     public List<GetPlantResponse> getPlants() {

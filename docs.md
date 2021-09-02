@@ -39,6 +39,7 @@ interface PostPlantRequest {
 }
 ```
 
+
 ## Journal Entries
 
 ### Submit all journal entries
@@ -47,10 +48,9 @@ interface PostPlantRequest {
 
 ```typescript
 interface JournalEntryRequest {
-  createdAt: string
+  createdAt: Long
   type: string
-  data: string,
-  dataUrl: string
+  data: string
 }
 ```
 
@@ -68,7 +68,7 @@ interface JournalEntryRequest {
 interface JournalEntryResponse {
   id: string  
   plantId: string
-  createdAt: string
+  createdAt: Long
   type: string
   data: string,
   dataUrl: string
