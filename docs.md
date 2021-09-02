@@ -9,7 +9,7 @@
 ```typescript
 interface GetPlantResponse {
     id: string
-    date: string
+    createdAt: Long
     name: string
     type: string
 }
@@ -33,9 +33,9 @@ Array<GetPlantResponse>
 
 ```typescript
 interface PostPlantRequest {
-    date: string
     name: string
     type: string
+    createdAt: Long
 }
 ```
 

@@ -36,7 +36,7 @@ class PlantService {
                 null,
                 request.getName(),
                 request.getType(),
-                request.getDate()
+                request.getCreatedAt()
         );
 
         // save to database and get wrapped entity
@@ -68,7 +68,7 @@ class PlantService {
                 nullablePlant.getId(),
                 nullablePlant.getName(),
                 nullablePlant.getType(),
-                nullablePlant.getDate()
+                nullablePlant.getCreatedAt()
 
         );
     }
