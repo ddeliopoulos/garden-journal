@@ -30,11 +30,10 @@ Array<GetPlantResponse>
 
 ### Submit all journal entries
 
-`POST` `journal-entries`
+`POST` `/plants/{plantId}/journal-entries`
 
 ```typescript
 interface JournalEntryRequest {
-  plantId: string
   createdAt: string
   type: string
   data: string,
@@ -42,13 +41,12 @@ interface JournalEntryRequest {
 }
 ```
 
-`GET` `/api/journal-entries`
+`GET` `/plants/{plantId}/journal-entries`
 
 #### Query parameters
 
- * `plantId: string` - ID of the plant this entry belongs to
- * `_sort=createdAt` - Sorts the entries retrieved by date created
- * `_order=desc` - sorts the entries in descending order
+ * `sort=createdAt` - Sorts the entries retrieved by date created
+ * `order=desc` - sorts the entries in descending order
  * `type=image` - filters only the image types
 
 #### Request
