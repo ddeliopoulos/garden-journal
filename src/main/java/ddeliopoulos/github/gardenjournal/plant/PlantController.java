@@ -1,14 +1,15 @@
 package ddeliopoulos.github.gardenjournal.plant;
 
 
-import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequest;
-import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponse;
+import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequestBody;
+import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponseBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -18,18 +19,18 @@ class PlantController {
     private final PlantService plantService;
 
     @GetMapping
-    public List<GetPlantResponse> getPlants() {
+    public List<GetPlantResponseBody> getPlants() {
         return plantService.getPlants();
     }
 
     @GetMapping("/{plantId}")
-    public GetPlantResponse getPlantById(@PathVariable Long plantId) {
+    public GetPlantResponseBody getPlantById(@PathVariable Long plantId) {
         return plantService.getPlant(plantId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long createNewPlant(@Valid @RequestBody CreatePlantRequest request) {
+    public Long createNewPlant(@Valid @RequestBody CreatePlantRequestBody request) {
         // return ID from controller, user will receive as response
         return plantService.createNewPlant(request);
     }

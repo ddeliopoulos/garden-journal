@@ -1,7 +1,7 @@
 package ddeliopoulos.github.gardenjournal.journalentry;
 
-import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponse;
-import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequest;
+import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponseBody;
+import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,28 +11,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/journal-entries")
 class JournalController {
 
     private final JournalService journalService;
 
-    @GetMapping
-    public List<GetJournalResponse> getJournalEntry() {
+    @GetMapping("/journal-entries")
+    public List<GetJournalResponseBody> getJournalEntry() {
         return journalService.getJournalEntries();
     }
 
-    @GetMapping("/{journalEntryId}")
-    public GetJournalResponse getJournalEntryById(@PathVariable Long journalEntryId) {
+    @GetMapping("/journal-entries/{journalEntryId}")
+    public GetJournalResponseBody getJournalEntryById(@PathVariable Long journalEntryId) {
         return journalService.getJournalEntries(journalEntryId);
     }
 
-    @PostMapping
+    @PostMapping("/plants/{plantId}/journal-entries")
     @ResponseStatus(HttpStatus.CREATED)
-    public Long createNewJournalEntry(@Valid @RequestBody InsertJournalRequest request) {
-        return journalService.createNewJournalEntry(request);
+    public Long createNewJournalEntry(@Valid @RequestBody InsertJournalRequestBody request, @PathVariable Long plantId) {
+        return journalService.createNewJournalEntry(request, plantId);
     }
 
-    @DeleteMapping("/{journalEntryId}")
+    @DeleteMapping("/journal-entries/{journalEntryId}")
     public void deleteJournalEntry(@PathVariable Long journalEntryId) {
         journalService.removeJournalEntry(journalEntryId);
     }

@@ -13,6 +13,7 @@ class JournalEntry {
     @Id
     @GeneratedValue
     private Long id;
+    private Long plantId;
     private Long createdAt;
     private String type;
     private Long mediaId;

@@ -17,4 +17,5 @@ class Media {
     @Lob
     @Column(columnDefinition = "BLOB")
     private String data;
+    private String contentType;
 }

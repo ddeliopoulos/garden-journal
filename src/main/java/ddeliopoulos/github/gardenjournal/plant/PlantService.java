@@ -1,36 +1,39 @@
 package ddeliopoulos.github.gardenjournal.plant;
 
-import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequest;
-import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponse;
+import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequestBody;
+import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponseBody;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * no visibility specified, so it's package-private (only visible in package)
  */
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 class PlantService {
 
     private final PlantRepository plantRepository;
 
-    List<GetPlantResponse> getPlants() {
+    List<GetPlantResponseBody> getPlants() {
         final List<Plant> allPlants = plantRepository.findAll();
 
-        final List<GetPlantResponse> allPlantsMapped = new ArrayList<>(allPlants.size());
+        final List<GetPlantResponseBody> allPlantsMapped = new ArrayList<>(allPlants.size());
         for (Plant plant : allPlants) {
-            final GetPlantResponse mappedPlant = mapEntityToGetResponse(plant);
+            final GetPlantResponseBody mappedPlant = mapEntityToGetResponse(plant);
             allPlantsMapped.add(mappedPlant);
         }
         return allPlantsMapped;
     }
 
-    Long createNewPlant(final CreatePlantRequest request) {
+    Long createNewPlant(final CreatePlantRequestBody request) {
+      log.info("creating a plant! {}", request);
         // create Plant entity
         final Plant entity = new Plant(
                 null,
@@ -46,7 +49,7 @@ class PlantService {
         return savedEntity.getId();
     }
 
-    GetPlantResponse getPlant(Long plantId) {
+    GetPlantResponseBody getPlant(Long plantId) {
         //        final Optional<Plant> nullablePlant = plantRepository.findById(plantId);
 //
 //        if (nullablePlant.isPresent()) {
@@ -63,8 +66,8 @@ class PlantService {
                 ));
     }
 
-    private GetPlantResponse mapEntityToGetResponse(Plant nullablePlant) {
-        return new GetPlantResponse(
+    private GetPlantResponseBody mapEntityToGetResponse(Plant nullablePlant) {
+        return new GetPlantResponseBody(
                 nullablePlant.getId(),
                 nullablePlant.getName(),
                 nullablePlant.getType(),

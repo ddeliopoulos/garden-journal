@@ -1,7 +1,7 @@
 package ddeliopoulos.github.gardenjournal.journalentry;
 
-import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequest;
-import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponse;
+import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBody;
+import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponseBody;
 import ddeliopoulos.github.gardenjournal.media.MediaFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,17 +17,18 @@ class JournalService {
     private final MediaFacade mediaFacade;
     private final JournalRepository journalRepository;
 
-    List<GetJournalResponse> getJournalEntries() {
+    List<GetJournalResponseBody> getJournalEntries() {
         return journalRepository.findAll()
                 .stream()
                 .map(this::mapEntityToGetResponse)
                 .collect(Collectors.toList());
     }
 
-    Long createNewJournalEntry(final InsertJournalRequest request) {
-        final Long mediaId = mediaFacade.createNewMedia(request.getData());
+    Long createNewJournalEntry(final InsertJournalRequestBody request, Long plantId) {
+        final Long mediaId = mediaFacade.createNewMedia(request.getData(), request.getType());
         final JournalEntry entity = new JournalEntry(
                 null,
+                plantId,
                 request.getCreatedAt(),
                 request.getType(),
                 mediaId
@@ -38,7 +39,7 @@ class JournalService {
         return savedEntity.getId();
     }
 
-    GetJournalResponse getJournalEntries(Long journalEntryId) {
+    GetJournalResponseBody getJournalEntries(Long journalEntryId) {
         return journalRepository.findById(journalEntryId)
                 .map(this::mapEntityToGetResponse)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -46,11 +47,11 @@ class JournalService {
                 ));
     }
 
-    private GetJournalResponse mapEntityToGetResponse(JournalEntry nullableJournalEntry) {
-        return new GetJournalResponse(
+    private GetJournalResponseBody mapEntityToGetResponse(JournalEntry nullableJournalEntry) {
+        return new GetJournalResponseBody(
                 nullableJournalEntry.getCreatedAt(),
                 nullableJournalEntry.getType(),
-                nullableJournalEntry.getData()
+                nullableJournalEntry.getMediaId()
         );
     }
 
