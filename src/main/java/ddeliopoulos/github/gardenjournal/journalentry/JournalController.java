@@ -36,4 +36,11 @@ class JournalController {
         journalService.removeJournalEntry(journalEntryId);
     }
 
+
+    @DeleteMapping("/plants/{plantId}/journal-entries")
+    public void deleteAllJournalEntries(@PathVariable Long plantId) {
+        journalService.removeAllJournalEntries(plantId);
+    }
+
+
 }

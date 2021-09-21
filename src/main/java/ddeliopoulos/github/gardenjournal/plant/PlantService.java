@@ -1,5 +1,6 @@
 package ddeliopoulos.github.gardenjournal.plant;
 
+import ddeliopoulos.github.gardenjournal.journalentry.JournalFacade;
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequestBody;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponseBody;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 class PlantService {
 
     private final PlantRepository plantRepository;
+    private final JournalFacade journalFacade;
 
     List<GetPlantResponseBody> getPlants() {
         final List<Plant> allPlants = plantRepository.findAll();
@@ -33,7 +36,7 @@ class PlantService {
     }
 
     Long createNewPlant(final CreatePlantRequestBody request) {
-      log.info("creating a plant! {}", request);
+        log.info("creating a plant! {}", request);
         // create Plant entity
         final Plant entity = new Plant(
                 null,
@@ -50,20 +53,12 @@ class PlantService {
     }
 
     GetPlantResponseBody getPlant(Long plantId) {
-        //        final Optional<Plant> nullablePlant = plantRepository.findById(plantId);
-//
-//        if (nullablePlant.isPresent()) {
-//            return mapEntityToGetResponse(nullablePlant.get());
-//        } else
-//            throw new ResponseStatusException(
-//                    HttpStatus.NOT_FOUND, "entity not found"
-//            );
 
         return plantRepository.findById(plantId)
-                .map(this::mapEntityToGetResponse)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "entity not found"
-                ));
+                              .map(this::mapEntityToGetResponse)
+                              .orElseThrow(() -> new ResponseStatusException(
+                                      HttpStatus.NOT_FOUND, "entity not found"
+                              ));
     }
 
     private GetPlantResponseBody mapEntityToGetResponse(Plant nullablePlant) {
@@ -75,9 +70,11 @@ class PlantService {
 
         );
     }
-    void removePlant(Long Id){
-        if(plantRepository.existsById(Id)) {
+
+    void removePlant(Long Id) {
+        if (plantRepository.existsById(Id)) {
             plantRepository.deleteById(Id);
+            journalFacade.deleteAllJournalEntries(Id);
         } else throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "entity not found"
         );

@@ -62,5 +62,13 @@ class JournalService {
                 HttpStatus.NOT_FOUND, "entity not found"
         );
     }
+
+    void removeAllJournalEntries(Long plantId) {
+        if (journalRepository.existsById(plantId)) {
+        journalRepository.deleteAllByPlantId(plantId);
+        } else throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "entity not found"
+        );
+    }
 }
 
