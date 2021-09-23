@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class JournalFacade {
 
     private final JournalService journalService;
+
     public void deleteAllJournalEntries(Long plantId) {
         journalService.removeAllJournalEntries(plantId);
     }

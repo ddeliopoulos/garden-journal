@@ -16,13 +16,13 @@ class JournalController {
     private final JournalService journalService;
 
     @GetMapping("/journal-entries")
-    public List<GetJournalResponseBody> getJournalEntry() {
+    public List<GetJournalResponseBody> getJournalEntry() {;
         return journalService.getJournalEntries();
     }
 
     @GetMapping("/journal-entries/{journalEntryId}")
     public GetJournalResponseBody getJournalEntryById(@PathVariable Long journalEntryId) {
-        return journalService.getJournalEntries(journalEntryId);
+        return journalService.getJournalEntry(journalEntryId);
     }
 
     @PostMapping("/plants/{plantId}/journal-entries")

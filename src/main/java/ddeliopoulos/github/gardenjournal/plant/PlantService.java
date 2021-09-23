@@ -53,7 +53,6 @@ class PlantService {
     }
 
     GetPlantResponseBody getPlant(Long plantId) {
-
         return plantRepository.findById(plantId)
                               .map(this::mapEntityToGetResponse)
                               .orElseThrow(() -> new ResponseStatusException(
@@ -67,7 +66,6 @@ class PlantService {
                 nullablePlant.getName(),
                 nullablePlant.getType(),
                 nullablePlant.getCreatedAt()
-
         );
     }
 

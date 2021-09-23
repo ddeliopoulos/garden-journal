@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +20,9 @@ class JournalService {
 
     List<GetJournalResponseBody> getJournalEntries() {
         return journalRepository.findAll()
-                .stream()
-                .map(this::mapEntityToGetResponse)
-                .collect(Collectors.toList());
+                                .stream()
+                                .map(this::mapEntityToGetResponse)
+                                .collect(Collectors.toList());
     }
 
     Long createNewJournalEntry(final InsertJournalRequestBody request, Long plantId) {
@@ -39,12 +40,12 @@ class JournalService {
         return savedEntity.getId();
     }
 
-    GetJournalResponseBody getJournalEntries(Long journalEntryId) {
+    GetJournalResponseBody getJournalEntry(Long journalEntryId) {
         return journalRepository.findById(journalEntryId)
-                .map(this::mapEntityToGetResponse)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "entity not found"
-                ));
+                                .map(this::mapEntityToGetResponse)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND, "entity not found"
+                                ));
     }
 
     private GetJournalResponseBody mapEntityToGetResponse(JournalEntry nullableJournalEntry) {
@@ -64,11 +65,7 @@ class JournalService {
     }
 
     void removeAllJournalEntries(Long plantId) {
-        if (journalRepository.existsById(plantId)) {
         journalRepository.deleteAllByPlantId(plantId);
-        } else throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "entity not found"
-        );
     }
 }
 
