@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public final class MediaResponseDTO {
 
-    private final String data;
+    private final byte[] data;
     private final String contentType;
 
 }

@@ -1,8 +1,7 @@
 package ddeliopoulos.github.gardenjournal.journalentry;
 
-import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBody;
 import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponseBody;
-import ddeliopoulos.github.gardenjournal.media.MediaFacade;
+import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 @Service
 class JournalService {
 
-    private final MediaFacade mediaFacade;
     private final JournalRepository journalRepository;
 
     List<GetJournalResponseBody> getJournalEntries() {
@@ -26,13 +24,12 @@ class JournalService {
     }
 
     Long createNewJournalEntry(final InsertJournalRequestBody request, Long plantId) {
-        final Long mediaId = mediaFacade.createNewMedia(request.getData(), request.getType());
         final JournalEntry entity = new JournalEntry(
                 null,
                 plantId,
                 request.getCreatedAt(),
                 request.getType(),
-                mediaId
+                request.getMediaId()
         );
 
         final JournalEntry savedEntity = journalRepository.save(entity);

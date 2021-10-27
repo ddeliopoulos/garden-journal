@@ -3,6 +3,7 @@ package ddeliopoulos.github.gardenjournal.media;
 import ddeliopoulos.github.gardenjournal.media.api.MediaResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.util.encoders.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,7 +17,7 @@ class MediaService {
 
     private final MediaRepository mediaRepository;
 
-    Long createNewMedia(String data, String type) {
+    Long createNewMedia(byte[] data, String type) {
         final Media entity = new Media(
                 null,
                 data,
@@ -25,7 +26,7 @@ class MediaService {
 
         final Media savedEntity = mediaRepository.save(entity);
 
-        log.info("created new media! {}", type);
+        log.info("created new media! {} {}", type, savedEntity.getId());
 
         return savedEntity.getId();
     }

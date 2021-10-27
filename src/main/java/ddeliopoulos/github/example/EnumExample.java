@@ -3,9 +3,7 @@ package ddeliopoulos.github.example;
 import org.apache.el.parser.AstTrue;
 import org.springframework.data.relational.core.sql.In;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
 public class EnumExample {
 
@@ -22,8 +20,30 @@ public class EnumExample {
 //
 //        System.out.println(isPowerOfThree(1));
 
-        System.out.println(isValid("{[]}"));
+        System.out.println(isHappy(18));
     }
+
+    public static boolean isHappy(int n) {
+        Set<Integer> set = new HashSet<>();
+        String num = String.valueOf(n);
+        int squaresOfDigits;
+        do {
+            squaresOfDigits = 0;
+            for (int i = 0; i < num.length(); i++) {
+                int singleNum = num.charAt(i) - '0';
+                squaresOfDigits += singleNum * singleNum;
+            }
+            System.out.println(squaresOfDigits);
+
+            if (set.contains(squaresOfDigits)) return false;
+            else set.add(squaresOfDigits);
+            num = String.valueOf(squaresOfDigits);
+
+        } while (squaresOfDigits != 1);
+        return true;
+    }
+
+
 //
 //        DayOfWeek first = DayOfWeek.MONDAY;
 //        DayOfWeek second = DayOfWeek.MONDAY;
@@ -65,17 +85,6 @@ public class EnumExample {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     public static boolean isValid(final String s) {
         if (s.length() % 2 != 0) return false;
 
@@ -85,14 +94,14 @@ public class EnumExample {
         while (i < s.length()) {
             final char currentChar = s.charAt(i);
             if (currentChar == '(' || currentChar == '[' || currentChar == '{') stack.push(currentChar);
-            else  { // closing bracket
+            else { // closing bracket
                 if (stack.empty()) {
                     return false;
                 }
                 final char previousOpeningBracket = stack.pop();
                 if ((previousOpeningBracket == '(' && currentChar != ')')
                         || (previousOpeningBracket == '[' && currentChar != ']')
-                        || (previousOpeningBracket == '{' && currentChar != '}'))  {
+                        || (previousOpeningBracket == '{' && currentChar != '}')) {
                     return false;
                 }
             }
@@ -101,21 +110,6 @@ public class EnumExample {
         }
         return stack.empty();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //    public static boolean isValid(String s) {

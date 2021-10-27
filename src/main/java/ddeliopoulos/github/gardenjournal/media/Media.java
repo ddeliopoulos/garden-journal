@@ -16,6 +16,6 @@ class Media {
     private Long id;
     @Lob
     @Column(columnDefinition = "BLOB")
-    private String data;
+    private byte[] data;
     private String contentType;
 }

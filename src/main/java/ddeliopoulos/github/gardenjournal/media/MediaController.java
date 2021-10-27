@@ -2,11 +2,9 @@ package ddeliopoulos.github.gardenjournal.media;
 
 import ddeliopoulos.github.gardenjournal.media.api.MediaResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +13,14 @@ public class MediaController {
 
     private final MediaService mediaService;
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public long createMedia(@RequestBody byte[] data, @RequestParam("contentType") String contentType) {
+        return mediaService.createNewMedia(data, contentType);
+    }
+
     @GetMapping("/{mediaId}")
-    public ResponseEntity<String> getMediaById(@PathVariable Long mediaId) {
+    public ResponseEntity<byte[]> getMediaById(@PathVariable Long mediaId) {
         MediaResponseDTO media = mediaService.getMedia(mediaId);
 
         return ResponseEntity.ok()

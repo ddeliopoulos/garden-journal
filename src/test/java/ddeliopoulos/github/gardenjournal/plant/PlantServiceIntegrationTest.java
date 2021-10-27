@@ -56,7 +56,7 @@ class PlantServiceIntegrationTest {
 
                 123L,
                 "SDFGSDSDFSDF",
-                "Image"
+                123L
         );
 
         final Long newPlantId = plantService.createNewPlant(createPlantRequest);
