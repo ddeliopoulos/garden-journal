@@ -10,6 +10,6 @@ public final class GetJournalResponseBody {
 
     private final Long createdAt;
     private final String type;
-    private final Long mediaID;
+    private final Long mediaId;
 
 }

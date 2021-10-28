@@ -20,7 +20,25 @@ public class EnumExample {
 //
 //        System.out.println(isPowerOfThree(1));
 
-        System.out.println(isHappy(18));
+        System.out.println(firstUniqChar("leetcode"));
+    }
+
+    public static int firstUniqChar(String s) {
+        HashMap<Character,Integer> hMap = new HashMap<>();
+        int nonRepeatingNum = 100000;
+        if(s.length() == 1) return 0;
+        hMap.put(s.charAt(0), 1);
+
+        for(int i = 1; i < s.length(); i++){
+            if(!hMap.containsKey(s.charAt(i))){
+                hMap.put(s.charAt(i), 1);
+            }else hMap.put(s.charAt(i), hMap.get(s.charAt(i)) + 1);
+        }
+        for (Map.Entry<Character, Integer> entry : hMap.entrySet()) {
+            if(entry.getValue() == 1 && s.indexOf(entry.getKey()) < nonRepeatingNum) nonRepeatingNum = s.indexOf(entry.getKey());
+        }
+        if(nonRepeatingNum != 100000) return nonRepeatingNum;
+        else return -1;
     }
 
     public static boolean isHappy(int n) {
