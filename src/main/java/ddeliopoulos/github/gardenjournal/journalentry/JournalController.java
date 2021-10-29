@@ -16,7 +16,7 @@ class JournalController {
     private final JournalService journalService;
 
     @GetMapping("/journal-entries")
-    public List<GetJournalResponseBody> getJournalEntry() {;
+    public List<GetJournalResponseBody> getJournalEntry() { // TODO: add filtering by type and other query params
         return journalService.getJournalEntries();
     }
 

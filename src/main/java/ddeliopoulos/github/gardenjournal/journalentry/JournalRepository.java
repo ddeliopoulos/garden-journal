@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 interface JournalRepository extends JpaRepository<JournalEntry, Long> {
 
+//    List<JournalEntry> findAllByTypeAnd...
+
     void deleteAllByPlantId(Long plantId);
 }
 
