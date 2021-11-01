@@ -20,8 +20,101 @@ public class EnumExample {
 //
 //        System.out.println(isPowerOfThree(1));
 
-        System.out.println(firstUniqChar("leetcode"));
+        int[][] grid = {{2,1,1},
+                        {1,1,0},
+                        {0,1,1}};
+
+        System.out.println(orangesRotting(grid));
     }
+    public static int orangesRotting(int[][] grid) {
+
+        int rowLength = grid.length;
+        int colLength = grid[0].length;
+        int min = 0;
+     while(min < 3) {
+         for (int row = 0; row < rowLength; row++) {
+             for (int col = 0; col < colLength; col++) {
+                 if (row > 0 && grid[row][col] == 2 && grid[row - 1][col] == 2) col++;
+
+                 if (col == 0 && row != rowLength - 1 && grid[row][col] == 2) {
+                     if (grid[row + 1][col] == 1) grid[row + 1][col] = 2;
+                     if (grid[row][col + 1] == 1) {
+                         grid[row][col + 1] = 2;
+                         col++;
+                     }
+                 } else if (col > 0 && col < colLength - 1 && grid[row][col] == 2) {
+                     if (grid[row][col - 1] == 1) grid[row][col - 1] = 2;
+                     if (grid[row + 1][col] == 1) grid[row + 1][col] = 3;
+                     if (grid[row][col + 1] == 1) {
+                         grid[row][col + 1] = 2;
+                         col++;
+                     }
+                 } else if (col == colLength - 1 && row != rowLength - 1 && grid[row][col] == 2) {
+                     if (grid[row + 1][col] == 1) grid[row + 1][col] = 2;
+                 } else continue;
+             }
+         }
+         min++;
+
+         for (int[] row : grid) {
+             System.out.println(row[0]);
+             }
+         }
+        System.out.println(Arrays.deepToString(grid));
+
+        return min;
+        }
+
+
+
+//                if(grid[row][col] == 1 && row - 1 >= 0 && grid[row - 1][col] == 2){
+//                    grid[row][col]+=1;
+//                }
+//
+//                if(grid[row][col] == 2){
+//                    if(row == 0){
+//                        if(col == 0){
+//                            if(grid[row+1][col] == 1) grid[row+1][col] = 2;
+//                            if(grid[row][col+1] == 1) {
+//                                grid[row][col + 1] = 2;
+//                                col++;
+//                            }
+//                        }
+//                        else if(col == colLength-1){
+//
+//                        }
+//                    }
+//                }
+//
+//                    if(row + col == 0){
+//                        if(grid[row+1][col] == 1) grid[row+1][col] = 2;
+//                        if(grid[row][col+1] == 1) {
+//                            grid[row][col + 1] = 2;
+//                            col++;
+//                        }
+//                    }
+//
+//
+//                    if(col > 0 && col < colLength-1 && row-1 >= 0){
+//                        if(grid[row][col] == 2 && grid[row][col+1] == 1) grid[row][col + 1] += 1;
+//                        if(grid[row][col-1] == 1 ) grid[row][col-1]+=1;
+//                          col++;
+//                      }
+//
+//                    if(grid[row][colLength-1] == 2 && grid[row][col-1] == 1){
+//                         grid[row][col-1] +=1;
+//                      col++;
+
+//                  if(grid[row][col] == 2 && grid[row+1][col] == 1) {
+//                    grid[row][col + 1]+=1;
+//                    if (grid[row+1][col] == 1) {
+//                        nextRow = row+1;
+//                        nextCol = col;
+//                        if(row+1 != rowLength-1) grid[row+1][col] = 2;
+//                        if(col != 0 && grid[row][col - 1] == 1) grid[row][col - 1] = 2;
+//                        col++;
+//                    }
+//                }
 
     public static int firstUniqChar(String s) {
         HashMap<Character,Integer> hMap = new HashMap<>();
