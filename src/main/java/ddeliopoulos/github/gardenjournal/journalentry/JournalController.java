@@ -15,9 +15,9 @@ class JournalController {
 
     private final JournalService journalService;
 
-    @GetMapping("/journal-entries")
-    public List<GetJournalResponseBody> getJournalEntry() { // TODO: add filtering by type and other query params
-        return journalService.getJournalEntries();
+    @GetMapping("/plants/{plantId}/journal-entries")
+    public List<GetJournalResponseBody> getJournalEntry(@RequestParam(value = "type", defaultValue = "") final String type, @PathVariable final long plantId) { // TODO: add filtering by type and other query params
+        return journalService.getJournalEntries(type, plantId);
     }
 
     @GetMapping("/journal-entries/{journalEntryId}")

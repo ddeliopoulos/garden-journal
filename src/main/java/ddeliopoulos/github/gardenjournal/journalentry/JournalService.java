@@ -16,8 +16,8 @@ class JournalService {
 
     private final JournalRepository journalRepository;
 
-    List<GetJournalResponseBody> getJournalEntries() {
-        return journalRepository.findAll()
+    List<GetJournalResponseBody> getJournalEntries(final String type, final long plantId) {
+        return journalRepository.findAllByTypeIgnoreCaseContainingAndPlantIdOrderByCreatedAtDesc(type, plantId)
                                 .stream()
                                 .map(this::mapEntityToGetResponse)
                                 .collect(Collectors.toList());
