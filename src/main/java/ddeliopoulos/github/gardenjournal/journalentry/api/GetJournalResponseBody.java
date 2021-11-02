@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public final class GetJournalResponseBody {
 
+    private final long id;
     private final Long createdAt;
     private final String type;
     private final Long mediaId;

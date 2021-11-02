@@ -47,6 +47,7 @@ class JournalService {
 
     private GetJournalResponseBody mapEntityToGetResponse(JournalEntry nullableJournalEntry) {
         return new GetJournalResponseBody(
+                nullableJournalEntry.getId(),
                 nullableJournalEntry.getCreatedAt(),
                 nullableJournalEntry.getType(),
                 nullableJournalEntry.getMediaId()
