@@ -20,13 +20,13 @@ public class EnumExample {
 
     }
 
-      public static class ListNode {
-          int val;
-          ListNode next;
-          ListNode() {}
-          ListNode(int val) { this.val = val; }
-          ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-      }
+//      public static class ListNode {
+//          int val;
+//          ListNode next;
+//          ListNode() {}
+//          ListNode(int val) { this.val = val; }
+//          ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+//      }
 
     public static class PairNodes {
         private final TreeNode leftNode;
@@ -39,8 +39,8 @@ public class EnumExample {
     }
     public static class TreeNode {
         private final int val;
-        private  TreeNode left;
-        private  TreeNode right;
+        private TreeNode left;
+        private TreeNode right;
         TreeNode(int val) {
             this.val = val;
         }

@@ -2,6 +2,7 @@ package ddeliopoulos.github.gardenjournal.journalentry;
 
 import ddeliopoulos.github.gardenjournal.journalentry.api.GetJournalResponseBody;
 import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBody;
+import ddeliopoulos.github.gardenjournal.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,10 @@ import java.util.stream.Collectors;
 class JournalService {
 
     private final JournalRepository journalRepository;
+    private final UserService userService;
 
     List<GetJournalResponseBody> getJournalEntries(final String type, final long plantId) {
+//        return journalRepository.findAllByTypeIgnoreCaseContainingAndPlantIdOrderByCreatedAtDescAndUserEmail(type, plantId, userService.getUserEmail())
         return journalRepository.findAllByTypeIgnoreCaseContainingAndPlantIdOrderByCreatedAtDesc(type, plantId)
                                 .stream()
                                 .map(this::mapEntityToGetResponse)

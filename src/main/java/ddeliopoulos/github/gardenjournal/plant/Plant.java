@@ -20,5 +20,5 @@ class Plant {
     private String name;
     private String type;
     private Long createdAt;
-
+    private String userEmail;
 }

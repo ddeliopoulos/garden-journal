@@ -3,6 +3,7 @@ package ddeliopoulos.github.gardenjournal.plant;
 import ddeliopoulos.github.gardenjournal.journalentry.JournalFacade;
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequestBody;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponseBody;
+import ddeliopoulos.github.gardenjournal.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,12 @@ class PlantService {
 
     private final PlantRepository plantRepository;
     private final JournalFacade journalFacade;
+    private final UserService userService;
 
     List<GetPlantResponseBody> getPlants() {
-        final List<Plant> allPlants = plantRepository.findAll();
-
+        final List<Plant> allPlants = plantRepository.findAllByUserEmail(userService.getUserEmail());
         final List<GetPlantResponseBody> allPlantsMapped = new ArrayList<>(allPlants.size());
+
         for (Plant plant : allPlants) {
             final GetPlantResponseBody mappedPlant = mapEntityToGetResponse(plant);
             allPlantsMapped.add(mappedPlant);
@@ -42,9 +44,9 @@ class PlantService {
                 null,
                 request.getName(),
                 request.getType(),
-                request.getCreatedAt()
+                request.getCreatedAt(),
+                userService.getUserEmail()
         );
-
         // save to database and get wrapped entity
         final Plant savedEntity = plantRepository.save(entity);
 
