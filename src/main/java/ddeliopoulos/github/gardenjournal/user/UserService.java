@@ -7,12 +7,12 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
+import java.util.Collections;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
@@ -36,25 +36,15 @@ public class UserService {
     }
 
     @SneakyThrows
-    private GoogleIdToken getTokenFromRequest(HttpServletRequest request) {
+    private GoogleIdToken getTokenFromRequest(final HttpServletRequest request) {
         String token = request.getHeader("X-Auth-Token");
         return VERIFIER.verify(token);
     }
     private String getUserEmail(GoogleIdToken token) {
-        if (token != null) {
-            Payload payload = token.getPayload();
-
-            // Print user identifier
-
-            String email = payload.getEmail();
-            boolean emailVerified = payload.getEmailVerified();
-            if (emailVerified) {
-                throw new IllegalArgumentException("user account not verified");
-            }
-            return email;
-        } else {
-            throw new IllegalArgumentException("invalid token!");
-        }
+        return Optional.ofNullable(token)
+                       .map(GoogleIdToken::getPayload)
+                       .map(Payload::getEmail)
+                       .orElseThrow(() -> new IllegalArgumentException("invalid token!"));
     }
 
 
