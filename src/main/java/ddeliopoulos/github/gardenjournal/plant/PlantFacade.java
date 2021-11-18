@@ -1,14 +1,17 @@
 package ddeliopoulos.github.gardenjournal.plant;
-import ddeliopoulos.github.gardenjournal.journalentry.JournalFacade;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class PlantFacade {
 
     private final PlantService plantService;
-    private final JournalFacade journalFacade;
+
+    @Autowired
+    public PlantFacade(@Lazy PlantService plantService) {
+        this.plantService = plantService;
+    }
 
     public String checkEmailFromPlant(Long plantId){
 
