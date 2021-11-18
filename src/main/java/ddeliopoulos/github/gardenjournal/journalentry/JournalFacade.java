@@ -10,7 +10,12 @@ public class JournalFacade {
     private final JournalService journalService;
 
     public void deleteAllJournalEntries(Long plantId) {
+
         journalService.removeAllJournalEntries(plantId);
+    }
+
+    public void verifyPlantOwner(Long plantId){
+        journalService.verifyPlantOwner(plantId);
     }
 
 }

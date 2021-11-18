@@ -11,5 +11,6 @@ public final class GetPlantResponseBody {
     private final String name;
     private final String type;
     private final Long createdAt;
+    private final String userEmail;
 
 }
