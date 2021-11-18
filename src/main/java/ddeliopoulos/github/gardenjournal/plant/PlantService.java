@@ -1,16 +1,14 @@
 package ddeliopoulos.github.gardenjournal.plant;
 
-import ddeliopoulos.github.gardenjournal.journalentry.JournalFacade;
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequestBody;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponseBody;
+import ddeliopoulos.github.gardenjournal.plant.api.PlantRemovedEvent;
+import ddeliopoulos.github.gardenjournal.shared.CustomSpringEventPublisher;
 import ddeliopoulos.github.gardenjournal.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -26,8 +24,8 @@ import java.util.List;
 class PlantService {
 
     private final PlantRepository plantRepository;
-    private final JournalFacade journalFacade;
     private final UserService userService;
+    private final CustomSpringEventPublisher customSpringEventPublisher;
 
     List<GetPlantResponseBody> getPlants() {
 
@@ -56,13 +54,11 @@ class PlantService {
         final Plant savedEntity = plantRepository.save(entity);
 
         // return ID
-        journalFacade.verifyPlantOwner(savedEntity.getId());
 
         return savedEntity.getId();
     }
 
     GetPlantResponseBody getPlant(Long plantId) {
-        journalFacade.verifyPlantOwner(plantId);
         return plantRepository.findById(plantId)
                               .map(this::mapEntityToGetResponse)
                               .orElseThrow(() -> new ResponseStatusException(
@@ -81,10 +77,9 @@ class PlantService {
     }
 
     void removePlant(Long plantId) {
-        journalFacade.verifyPlantOwner(plantId);
         if (plantRepository.existsById(plantId)) {
             plantRepository.deleteById(plantId);
-            journalFacade.deleteAllJournalEntries(plantId);
+            customSpringEventPublisher.publishCustomEvent(new PlantRemovedEvent(this, plantId));
         } else throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "entity not found"
         );

@@ -36,7 +36,7 @@ class PlantController {
     }
 
     @DeleteMapping("/{plantId}")
-    public void deletePlant(@PathVariable Long plantId){
+    public void deletePlant(@PathVariable Long plantId) {
         plantService.removePlant(plantId);
     }
 

@@ -1,7 +1,10 @@
 package ddeliopoulos.github.gardenjournal.journalentry;
 
 import lombok.*;
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @Getter

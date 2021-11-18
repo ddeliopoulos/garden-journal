@@ -32,8 +32,9 @@ class JournalService {
                                 .collect(Collectors.toList());
     }
 
-    void verifyPlantOwner(Long plantId){
-        if(!plantFacade.checkEmailFromPlant(plantId).equals(userService.getUserEmail())){
+    void verifyPlantOwner(Long plantId) {
+        if (!plantFacade.checkEmailFromPlant(plantId)
+                        .equals(userService.getUserEmail())) {
             throw new AccessDeniedException("You do not have access!");
         }
     }
@@ -57,7 +58,8 @@ class JournalService {
     GetJournalResponseBody getJournalEntry(Long journalEntryId) {
 
         Long plantId = Objects.requireNonNull(journalRepository.findById(journalEntryId)
-                                                               .orElse(null)).getPlantId();
+                                                               .orElse(null))
+                              .getPlantId();
         verifyPlantOwner(plantId);
 
         return journalRepository.findById(journalEntryId)

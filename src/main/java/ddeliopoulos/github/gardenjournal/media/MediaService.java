@@ -3,12 +3,9 @@ package ddeliopoulos.github.gardenjournal.media;
 import ddeliopoulos.github.gardenjournal.media.api.MediaResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.util.encoders.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.annotation.PostConstruct;
 
 @Slf4j
 @RequiredArgsConstructor
