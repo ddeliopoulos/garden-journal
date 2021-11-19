@@ -40,7 +40,6 @@ class PlantService {
     }
 
     Long createNewPlant(final CreatePlantRequestBody request) {
-
         log.info("creating a plant! {}", request);
         // create Plant entity
         final Plant entity = new Plant(
