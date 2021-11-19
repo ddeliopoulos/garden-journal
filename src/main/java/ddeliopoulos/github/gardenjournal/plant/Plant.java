@@ -1,6 +1,7 @@
 package ddeliopoulos.github.gardenjournal.plant;
 
 import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +19,6 @@ class Plant {
     private Long id;
     private String name;
     private String type;
-    private String date;
-
+    private Long createdAt;
+    private String userEmail;
 }
