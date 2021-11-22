@@ -13,7 +13,6 @@ public final class InsertJournalRequestBody {
     private final Long createdAt;
     @NotBlank
     private final String type;
-    @NotNull
     private final Long mediaId;
 
 }

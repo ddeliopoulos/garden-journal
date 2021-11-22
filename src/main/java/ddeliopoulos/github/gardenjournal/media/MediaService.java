@@ -13,18 +13,14 @@ import org.springframework.web.server.ResponseStatusException;
 class MediaService {
 
     private final MediaRepository mediaRepository;
-
     Long createNewMedia(byte[] data, String type) {
         final Media entity = new Media(
                 null,
                 data,
                 type
         );
-
         final Media savedEntity = mediaRepository.save(entity);
-
         log.info("created new media! {} {}", type, savedEntity.getId());
-
         return savedEntity.getId();
     }
 

@@ -5,6 +5,7 @@ import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBo
 import ddeliopoulos.github.gardenjournal.plant.PlantFacade;
 import ddeliopoulos.github.gardenjournal.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+@Slf4j
 
 @RequiredArgsConstructor
 @Service
@@ -59,7 +61,7 @@ class JournalService {
 
         Long plantId = Objects.requireNonNull(journalRepository.findById(journalEntryId)
                                                                .orElse(null))
-                              .getPlantId();
+                                                                .getPlantId();
         verifyPlantOwner(plantId);
 
         return journalRepository.findById(journalEntryId)
@@ -78,10 +80,11 @@ class JournalService {
         );
     }
 
-    void removeJournalEntry(Long plantId) {
-        verifyPlantOwner(plantId);
-        if (journalRepository.existsById(plantId)) {
-            journalRepository.deleteById(plantId);
+    void removeJournalEntry(Long journalEntryId) {
+        //verifyPlantOwner(journalEntryId);
+        log.info("JOURNAL ID DELETE: {}",journalEntryId);
+        if (journalRepository.existsById(journalEntryId)) {
+            journalRepository.deleteById(journalEntryId);
         } else throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "entity not found"
         );
