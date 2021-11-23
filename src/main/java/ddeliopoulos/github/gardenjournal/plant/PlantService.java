@@ -47,7 +47,8 @@ class PlantService {
                 request.getName(),
                 request.getType(),
                 request.getCreatedAt(),
-                userService.getUserEmail()
+                userService.getUserEmail(),
+                request.getFrequency()
         );
         // save to database and get wrapped entity
         final Plant savedEntity = plantRepository.save(entity);
@@ -71,7 +72,8 @@ class PlantService {
                 nullablePlant.getName(),
                 nullablePlant.getType(),
                 nullablePlant.getCreatedAt(),
-                nullablePlant.getUserEmail()
+                nullablePlant.getUserEmail(),
+                nullablePlant.getFrequency()
         );
     }
 
