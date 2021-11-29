@@ -91,7 +91,6 @@ class JournalService {
     }
 
     void removeAllJournalEntries(Long plantId) {
-        verifyPlantOwner(plantId);
         journalRepository.deleteAllByPlantId(plantId);
     }
 }

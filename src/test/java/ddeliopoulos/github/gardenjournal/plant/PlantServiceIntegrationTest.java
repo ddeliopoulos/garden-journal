@@ -28,7 +28,8 @@ class PlantServiceIntegrationTest {
         final CreatePlantRequestBody createPlantRequest = new CreatePlantRequestBody(
                 "test name",
                 "test type",
-                123L
+                123L,
+                "2"
         );
 
         // when:
@@ -50,7 +51,9 @@ class PlantServiceIntegrationTest {
         final CreatePlantRequestBody createPlantRequest = new CreatePlantRequestBody(
                 "test name",
                 "test type",
-                123L
+                123L,
+                "2"
+
         );
         final InsertJournalRequestBody insertJournalRequestBody = new InsertJournalRequestBody(
 
