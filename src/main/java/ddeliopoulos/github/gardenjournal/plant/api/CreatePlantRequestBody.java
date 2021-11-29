@@ -18,4 +18,6 @@ public final class CreatePlantRequestBody {
     private final String type;
     @NotNull
     private final Long createdAt;
+    @NotBlank
+    private final String frequency;
 }

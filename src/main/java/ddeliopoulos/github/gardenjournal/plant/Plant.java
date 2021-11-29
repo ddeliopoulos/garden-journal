@@ -21,4 +21,5 @@ class Plant {
     private String type;
     private Long createdAt;
     private String userEmail;
+    private String frequency;
 }

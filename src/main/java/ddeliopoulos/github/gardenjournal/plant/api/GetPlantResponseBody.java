@@ -12,5 +12,6 @@ public final class GetPlantResponseBody {
     private final String type;
     private final Long createdAt;
     private final String userEmail;
+    private final String frequency;
 
 }
