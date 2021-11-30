@@ -1,6 +1,7 @@
 package ddeliopoulos.github.gardenjournal.media;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -15,7 +16,8 @@ class Media {
     @GeneratedValue
     private Long id;
     @Lob
-    @Column(columnDefinition = "bytea")
+    @Type(type="org.hibernate.type.BinaryType")
+    @Column
     private byte[] data;
     private String contentType;
 }
