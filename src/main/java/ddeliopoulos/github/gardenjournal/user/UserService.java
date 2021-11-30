@@ -1,13 +1,13 @@
 package ddeliopoulos.github.gardenjournal.user;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -31,6 +32,7 @@ public class UserService {
     UserService(HttpServletRequest request,
                 @Value("google.auth.client_id") String clientId) {
         this.request = request;
+        log.info("using client ID {}", clientId);
         this.verifier = new GoogleIdTokenVerifier.Builder(TRANSPORT, JSON_FACTORY)
                 // Specify the CLIENT_ID of the app that accesses the backend:
                 .setAudience(Collections.singletonList(clientId))
@@ -46,13 +48,20 @@ public class UserService {
     @SneakyThrows
     private GoogleIdToken getTokenFromRequest(final HttpServletRequest request) {
         String token = request.getHeader("X-Auth-Token");
+        log.info("got token {}", token);
         return verifier.verify(token);
     }
 
     private String getUserEmail(GoogleIdToken token) {
         return Optional.ofNullable(token)
-                       .map(GoogleIdToken::getPayload)
-                       .map(Payload::getEmail)
+                       .map(it -> {
+                           log.info("token is {}", it.getPayload());
+                           return it.getPayload();
+                       })
+                       .map(it -> {
+                           log.info("email is {}", it.getEmail());
+                           return it.getEmail();
+                       })
                        .orElseThrow(() -> new IllegalArgumentException("invalid token!"));
     }
 
