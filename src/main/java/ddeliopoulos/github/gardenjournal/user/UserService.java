@@ -30,7 +30,7 @@ public class UserService {
 
     @Autowired
     UserService(HttpServletRequest request,
-                @Value("google.auth.client_id") String clientId) {
+                @Value("${google.auth.client_id}") String clientId) {
         this.request = request;
         log.info("using client ID {}", clientId);
         this.verifier = new GoogleIdTokenVerifier.Builder(TRANSPORT, JSON_FACTORY)
@@ -54,14 +54,8 @@ public class UserService {
 
     private String getUserEmail(GoogleIdToken token) {
         return Optional.ofNullable(token)
-                       .map(it -> {
-                           log.info("token is {}", it.getPayload());
-                           return it.getPayload();
-                       })
-                       .map(it -> {
-                           log.info("email is {}", it.getEmail());
-                           return it.getEmail();
-                       })
+                       .map(GoogleIdToken::getPayload)
+                       .map(GoogleIdToken.Payload::getEmail)
                        .orElseThrow(() -> new IllegalArgumentException("invalid token!"));
     }
 
