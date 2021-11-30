@@ -15,7 +15,7 @@ class Media {
     @GeneratedValue
     private Long id;
     @Lob
-    @Column(columnDefinition = "BLOB")
+    @Column(columnDefinition = "bytea")
     private byte[] data;
     private String contentType;
 }
