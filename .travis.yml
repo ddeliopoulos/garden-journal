@@ -2,7 +2,8 @@ language: node_js
 
 install:
   - npm install
-
+script:
+  - npm run test
 branches:
   only:
     - master
