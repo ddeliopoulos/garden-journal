@@ -4,6 +4,7 @@ import ddeliopoulos.github.gardenjournal.journalentry.TestJournalFacade;
 import ddeliopoulos.github.gardenjournal.journalentry.api.InsertJournalRequestBody;
 import ddeliopoulos.github.gardenjournal.plant.api.CreatePlantRequestBody;
 import ddeliopoulos.github.gardenjournal.plant.api.GetPlantResponseBody;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@Disabled
 class PlantServiceIntegrationTest {
 
     @Autowired
