@@ -28,9 +28,12 @@ public class UserService {
 
     private final GoogleIdTokenVerifier verifier;
 
+    private final boolean testTokenEnabled;
+
     @Autowired
     UserService(HttpServletRequest request,
-                @Value("${google.auth.client_id}") String clientId) {
+                @Value("${google.auth.client_id}") String clientId,
+                @Value("${test.token.enabled}") Boolean testTokenEnabled) {
         this.request = request;
         log.info("using client ID {}", clientId);
         this.verifier = new GoogleIdTokenVerifier.Builder(TRANSPORT, JSON_FACTORY)
@@ -39,25 +42,27 @@ public class UserService {
                 // Or, if multiple clients access the backend:
                 //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                 .build();
+        this.testTokenEnabled = Optional.ofNullable(testTokenEnabled).orElse(false);
     }
 
     public String getUserEmail() {
-        return getUserEmail(getTokenFromRequest(request));
+        String token = request.getHeader("X-Auth-Token");
+        log.info("got token {}", token);
+
+        if (testTokenEnabled && token.startsWith("test-token-")) {
+            return token.substring(11);
+        }
+
+        return Optional.ofNullable(token)
+                .map(this::verifyToken)
+                .map(GoogleIdToken::getPayload)
+                .map(GoogleIdToken.Payload::getEmail)
+                .orElseThrow(() -> new IllegalArgumentException("invalid token!"));
     }
 
     @SneakyThrows
-    private GoogleIdToken getTokenFromRequest(final HttpServletRequest request) {
-        String token = request.getHeader("X-Auth-Token");
-        log.info("got token {}", token);
+    private GoogleIdToken verifyToken(final String token) {
         return verifier.verify(token);
     }
-
-    private String getUserEmail(GoogleIdToken token) {
-        return Optional.ofNullable(token)
-                       .map(GoogleIdToken::getPayload)
-                       .map(GoogleIdToken.Payload::getEmail)
-                       .orElseThrow(() -> new IllegalArgumentException("invalid token!"));
-    }
-
 
 }
