@@ -1,0 +1,21 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "garden-journal-backend" #Must be unique in Heroku
+          heroku_email: "ddeliopoulos@gmail.com"
