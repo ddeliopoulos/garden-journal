@@ -1,6 +1,5 @@
 package ddeliopoulos.github.gardenjournal;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -94,9 +93,7 @@ class HomePageTest {
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(HAMBURGER_MENU));
         driver.findElement(HAMBURGER_MENU)
               .click();
-        driver.manage()
-              .window()
-              .fullscreen();
+
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div/div[1]/nav/a[3]"))
               .click();
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.urlContains("/about"));
@@ -112,14 +109,8 @@ class HomePageTest {
         loginWithTestToken();
         driver.navigate()
               .to(BASE_URL);
-        driver.manage()
-              .window()
-              .fullscreen();
 
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(LOGOUT_BUTTON));
-        driver.manage()
-              .window()
-              .fullscreen();
 
         driver.findElement(LOGOUT_BUTTON)
               .click();
@@ -163,9 +154,7 @@ class HomePageTest {
 
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.urlContains(BASE_URL));
 
-        driver.manage()
-              .window()
-              .fullscreen();
+
         assertEquals("User: " + getCurrentUserEmail().orElse(null),
                      driver.findElement(USER_NAME_FIELD)
                            .getText());
@@ -258,7 +247,6 @@ class HomePageTest {
         // wait to navigate to home
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(CLICKABLE_PLANT_CARD));
 
-
         assertEquals("Christini Plant",
                      driver.findElement(By.cssSelector(
                                    "#home > div > div > div > div > div > div.single-plant-container > div > div > a > h2"))
@@ -346,9 +334,7 @@ class HomePageTest {
         driver.findElement(By.xpath("/html/body/div[1]/div[1]/section/div/div/div/div[3]/div/div/div/div[2]/div/div[1]/i"))
               .click();
 
-        driver.manage()
-              .window()
-              .fullscreen();
+
         // waits for the plant created to be removed
 //        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.invisibilityOfAllElements(
 //                driver.findElement(By.cssSelector("#\\36  > div > div > div > div.mt-10.py-10.border-t.border-gray-300.text-center > div > div > div"))
@@ -406,7 +392,7 @@ class HomePageTest {
               .click();
 
         driver.findElement(ADD_PLANT_BUTTON)
-                .click();
+              .click();
 
         // finds element inputs for adding plant
         WebElement plantNameInput2 = driver.findElement(By.xpath(

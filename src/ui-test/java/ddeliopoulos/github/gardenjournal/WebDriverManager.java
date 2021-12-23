@@ -4,9 +4,11 @@ import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.Optional;
 
@@ -19,6 +21,7 @@ public class WebDriverManager implements TestExecutionListener {
     public static WebDriver getDriver() {
         if (DRIVER == null) {
             DRIVER = new ChromeDriver();
+            DRIVER.manage().window().setSize(new Dimension(1920, 1080));
         }
         return DRIVER;
     }
